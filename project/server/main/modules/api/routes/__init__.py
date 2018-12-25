@@ -1,6 +1,8 @@
 
 ENABLED_ROUTES = (
     "user",
+    "auth",
+    "group",
 )
 
 def setup(api):
@@ -12,5 +14,6 @@ def setup(api):
                 package=__name__
             ).api
         )
+    api.namespaces.pop(0)
 
     return api

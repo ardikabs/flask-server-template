@@ -1,4 +1,4 @@
-# ALL AVAILABLE MODULES ON SERVER BELONG TO HERE
+""" All Available Module on Server Belong to Here """
 
 AVAILABLE_MODULES = (
     "api",

@@ -32,6 +32,9 @@ def test():
         return 0
     return 1
 
+@manager.command
+def setup_dev():
+    RoleModel.insert()
 
 @manager.command
 def run():

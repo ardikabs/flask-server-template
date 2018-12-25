@@ -19,22 +19,27 @@ class Config(object):
     ERROR_INCLUDE_MESSAGE = False
     RESTPLUS_MASK_SWAGGER = False
     
-    # POSTGRESQL
-    DB_USER = 'ancok125'
-    DB_PASSWORD = 'l1nux1user'
-    DB_NAME = 'cloud'
-    DB_HOST = '172.18.69.17'
-    DB_PORT = 5432
-    SQLALCHEMY_DATABASE_URI = os.environ.get('POSTGRES_DATABASE_URL') or \
-                            f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
+    ## POSTGRESQL CONFIG
+    DB_USER = os.environ.get("PG_USER") or 'root'
+    DB_PASSWORD = os.environ.get("PG_PWD") or 'MyB3stP4ssw0rD'
+    DB_NAME = os.environ.get("PG_DBNAME") or 'database'
+    DB_HOST = os.environ.get("PG_HOST") or 'localhost'
+    DB_PORT = os.environ.get("PG_PORT") or 5432
+    SQLALCHEMY_DATABASE_URI = os.environ.get("POSTGRES_URL") or \
+                            f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
-    ## SQLITE
-    # SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-    #                         f'sqlite:///{os.path.join(BASEDIR, "data-dev.db")}'
-
+   
     ## CELERY CONFIG
-    CELERY_BROKER_URL = "redis://172.18.69.17:6379/0"
-    CELERY_RESULT_BACKEND = "redis://172.18.69.17:6379/0"
+    # REDIS_HOST = os.environ.get("REDIS_HOST") or "localhost"
+    # REDIS_PORT = os.environ.get("REDIS_PORT") or 6379
+    # CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+    # CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+
+
+    ## JWT CONFIG
+    JWT_SECRET_KEY = "this-is-jwt-secret-key-should-be-different-from-app-secret-key"
+    JWT_BLACKLIST_ENABLED = True
+    JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
 
 
     @staticmethod
@@ -44,25 +49,42 @@ class Config(object):
 class DevelopmentConfig(Config):
     DEBUG = True
     ASSETS_DEBUG = True
+
+    ## SQLITE
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
+                            f'sqlite:///{os.path.join(Config.BASEDIR, "data-dev.db")}'
     
     @classmethod
     def init_app(cls, app):
-        print ("RUNNING ON DEBUG MODE")
+        print ("RUNNING ON DEVELOPMENT MODE")
 
 
 class TestingConfig(Config):
     TESTING = True
     WTF_CSRF_ENABLED = False
 
+    ## SQLITE
+    # SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
+    #                         f'sqlite:///{os.path.join(BASEDIR, "data-test.db")}'
 
     @classmethod
     def init_app(cls, app):
         print ("RUNNING ON TESTING MODE")
+
+class ProductionConfig(Config):
+    SECRET_KEY = "Production-Secret-Key-Need-To-Change-Try-To-Create-With-os.urandom"
+    SSL_DISABLE = (os.environ.get('SSL_DISABLE') or 'True') == 'True'
+
+    @classmethod
+    def init_app(cls, app):
+        print ("RUNNING ON PRODUCTION MODE")
+
 
 
 
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
-    'default': DevelopmentConfig
+    'default': DevelopmentConfig,
+    'production': ProductionConfig
 }

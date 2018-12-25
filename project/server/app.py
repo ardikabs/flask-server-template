@@ -4,9 +4,12 @@ from config import config
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from flask_jwt_extended import JWTManager
 
 db = SQLAlchemy()
 ma = Marshmallow()
+jwt = JWTManager()
+
 
 def configure_logger(app, gunicorn=False):
     if gunicorn:
@@ -52,5 +55,6 @@ def create_app(config_name=None):
 
     db.init_app(app)
     ma.init_app(app)
+    jwt.init_app(app)
 
     return app
