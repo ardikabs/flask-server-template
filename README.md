@@ -1,5 +1,5 @@
 # Flask Server Template
-This is a Flask Server Template possible to working for API Server or Backend Server.
+This is a Flask Server Template possible to working for Backend(API) Server or Fullstack Web Development.
 Working with Flask-RestPlus, Flask-JWT, Flask-Marshmallow, Celery, and also ready to deploy with Dockerfile available. This Flask Server running with gunicorn in port 8080.
 
 ## Structure Directory
