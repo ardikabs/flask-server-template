@@ -1,6 +1,10 @@
+__author__ = "Ardika Bagus Saputro"
+__copyright__ = "Copyright 2018, Flask Server Template"
 
-__author__ = 'Ardika Bagus Saputro <ardika.saputro@gdn-commerce.com>'
-__version__ = '0.1.2'
+__version__ = "0.0.1"
+__maintainer__ = "Ardika Bagus Saputro"
+__email__ = "ardikabs@gmail.com"
+__status__ = "Development"
 
 from server.app import create_app, configure_logger
 from server.extensions.celery import create_celery
